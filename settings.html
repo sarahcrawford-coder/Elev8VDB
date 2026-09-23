@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Set Card Link</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 10px; }
+    input { width: 100%; padding: 5px; margin-bottom: 10px; }
+    button { padding: 5px 10px; background: #0079bf; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <input id="linkInput" type="url" placeholder="Enter link (https://...)" />
+  <button id="saveBtn">Save Link</button>
+
+  <script src="https://p.trellocdn.com/power-up.min.js"></script>
+  <script>
+    var t = TrelloPowerUp.iframe();
+
+    // Load existing link
+    t.get('card', 'shared', 'dynamicLink').then(function(link) {
+      if (link) document.getElementById('linkInput').value = link;
+    });
+
+    // Save link
+    document.getElementById('saveBtn').addEventListener('click', function() {
+      var link = document.getElementById('linkInput').value.trim();
+      if (link) {
+        t.set('card', 'shared', 'dynamicLink', link).then(function() {
+          t.closePopup();
+        });
+      }
+    });
+  </script>
+</body>
+</html>
